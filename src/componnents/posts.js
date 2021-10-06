@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button ,Form ,ListGroup} from 'react-bootstrap'
 
 import { getPosts } from '.././crud'
 import ModalPosts from './modalPost'
@@ -13,24 +13,28 @@ export default function Posts (props) {
     setPosts(postsFromJson)
   }, [])
 
-  const addPosts =  () => {
+  const addPosts = () => {
     setShowAddPost(true)
   }
-  const postToAdd =  data => {
+  const postToAdd = data => {
+    setShowAddPost(false)
+
     setPosts([...posts, data])
   }
 
   return (
     <>
       <div>
-        <lable>Posts of user </lable>
+        <Form.Label column="sm" >Posts of user:</Form.Label>
         {posts &&
           posts.map((post, index) => {
-            return <li>{post.title}</li>
+             return <ListGroup.Item>{post.title}</ListGroup.Item>
           })}
-        <Button variant='outline-secondary' onClick={addPosts}>
-          add post
+          <div className="d-grid gap-2">
+        <Button variant='outline-secondary'  size="sm" onClick={addPosts}>
+          add post +
         </Button>
+        </div>
         {showAddPost ? <ModalPosts id={props.id} postAdd={postToAdd} /> : ''}
       </div>
     </>

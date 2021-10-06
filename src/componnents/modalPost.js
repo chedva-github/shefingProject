@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Modal } from 'react-bootstrap'
+import { Modal, Form, Button } from 'react-bootstrap'
+// import Modal from 'react-awesome-modal'
 
 import { addPosts } from '.././crud'
 
@@ -11,7 +12,7 @@ export default function ModalPosts (props) {
   })
   const [show, setShow] = useState(true)
 
-  useEffect( () => {
+  useEffect(() => {
     setShow(true)
   }, [])
   const handleInputChange = event => {
@@ -27,40 +28,31 @@ export default function ModalPosts (props) {
     alert('fake save post')
     setShow(false)
   }
+  const closeModal = () => {
+    setShow(false)
+  }
 
   return (
     <>
       <Modal show={show}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton onClick={closeModal}>
           <Modal.Title>add Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
-            <label>
-              post title:
-              <input
+          <Form>
+            <Form.Group className='mb-3' controlId='formBasicEmail'>
+              <Form.Label>Post title:</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter post title'
                 name='title'
-                type='text'
-                //   value={}
                 onChange={handleInputChange}
               />
-            </label>
-            <br />
-            <label>
-              post body:
-              <input
-                name='body'
-                type='text'
-                //   value={}
-                onChange={handleInputChange}
-              />
-            </label>
-            <label>
-              submit:
-              <input type='button' onClick={handleSubmit} value='Submit' />
-            </label>
-            <br />
-          </form>
+            </Form.Group>
+            <Button variant='primary' type='button' onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Form>
         </Modal.Body>
       </Modal>
     </>
