@@ -75,7 +75,7 @@ export default function Home (props) {
                         />
                       </td>
                     </tr>
-                    {showPost == index + 1 ? <Posts id={user.id} /> : null}
+                    {showPost == user.id ? <Posts id={user.id} /> : null}
                   </>
                 )
               })}
