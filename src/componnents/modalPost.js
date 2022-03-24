@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
-// import Modal from 'react-awesome-modal'
 
 import { addPosts } from '.././crud'
 
