@@ -6,10 +6,10 @@ import Posts from './posts'
 
 export default function Home (props) {
   const [users, setUsers] = useState([])
-  const [showPost, setShowPost] = useState(0)
+  const [showPostListId, setShowPostListId] = useState([])
   const [usersFilter, setUsersFilter] = useState([])
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
+  const nameRef = useRef(null)
+  const emailRef = useRef(null)
 
   useEffect(async () => {
     let usersFromJson = await getUsers()
@@ -22,18 +22,17 @@ export default function Home (props) {
     setUsers(users =>
       users.filter(user => user[e.target.name].indexOf(e.target.value) !== -1)
     )
-    if(e.target.name!==nameRef.current.name)
-    nameRef.current.value = "";
-    else
-    if(e.target.name!==emailRef.current.name)
-    emailRef.current.value = "";
-
-
+    if (e.target.name !== nameRef.current.name) nameRef.current.value = ''
+    else if (e.target.name !== emailRef.current.name)
+      emailRef.current.value = ''
   }
 
   const selectOne = e => {
-    setShowPost(e.target.name)
-    if (!e.target.checked) setShowPost(0)
+    setShowPostListId([...showPostListId, e.target.name])
+    if (!e.target.checked) {
+      const showPostList = showPostListId.filter(x => x !== e.target.name)
+      setShowPostListId(showPostList)
+    }
   }
   return (
     <>
@@ -43,10 +42,20 @@ export default function Home (props) {
         </div>
         <div className='text  top-0 mt-5'>
           <Form.Label>Filter by user name </Form.Label>
-          <Form.Control ref={nameRef} type='text' name='name' onChange={filter} />
+          <Form.Control
+            ref={nameRef}
+            type='text'
+            name='name'
+            onChange={filter}
+          />
           <br />
           <Form.Label>Filter by user email </Form.Label>
-          <Form.Control ref={emailRef} type='text' name='email' onChange={filter} />
+          <Form.Control
+            ref={emailRef}
+            type='text'
+            name='email'
+            onChange={filter}
+          />
         </div>
         <Table striped bordered hover className='mt-5'>
           <thead>
@@ -75,7 +84,10 @@ export default function Home (props) {
                         />
                       </td>
                     </tr>
-                    {showPost == user.id ? <Posts id={user.id} /> : null}
+                    {showPostListId &&
+                      showPostListId.map(p =>
+                        p == user.id ? <Posts id={user.id} /> : null
+                      )}
                   </>
                 )
               })}
